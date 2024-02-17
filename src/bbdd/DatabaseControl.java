@@ -38,8 +38,9 @@ public class DatabaseControl {
 			+ Messages.getString("BARRA") + ConfiguracionServidor.BBDD // $NON-NLS-1$ //$NON-NLS-2$
 			+ Messages.getString("DatabaseControl.2") + TimeZone.getDefault().getID(); //$NON-NLS-1$
 */
-	private static final String urlCon = "jdbc:mysql://labs.iam.cat/a18danbargar_prototipo3?serverTimezone="
-			+ TimeZone.getDefault().getID();
+	private static final String urlCon ="jdbc:mysql://localhost/fleeteye";
+//	private static final String urlCon = "jdbc:mysql://labs.iam.cat/a18danbargar_prototipo3?serverTimezone="
+//			+ TimeZone.getDefault().getID();
 //	private static final String user = "a18danbargar_1";
 //	private static final String pass = "ausias";
 
