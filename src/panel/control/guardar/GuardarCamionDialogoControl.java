@@ -63,7 +63,7 @@ public class GuardarCamionDialogoControl {
 									+ this.vista.getTextFieldEje2().getText());
 
 				if (this.vista.getDatePickerMatriculacion().getModel().getValue() != null) {
-					System.out.println(this.vista.getDatePickerMatriculacion().getModel());
+//					System.out.println(this.vista.getDatePickerMatriculacion().getModel());
 					if (!this.vista.getDatePickerMatriculacion().getModel().getValue().toString().isBlank())
 						camionBuilder.fechaMatriculacion(new java.sql.Date(
 								((java.util.Date) this.vista.getDatePickerMatriculacion().getModel().getValue())

@@ -76,7 +76,7 @@ public class GuardarEncargoDialogoControl {
 			Builder encargoBuilder = new Encargo.Builder(this.presupuesto);
 			if (this.vista.getBuscaCamion().getSelectedIndex() != 0)
 				encargoBuilder.tractora(((Camion) this.vista.getBuscaCamion().getSelectedItem()));
-			System.out.println(Messages.getString("GuardarEncargoDialogoControl.4")); //$NON-NLS-1$
+//			System.out.println(Messages.getString("GuardarEncargoDialogoControl.4")); //$NON-NLS-1$
 			if (this.vista.getEntrega().getModel().getValue() != null) {
 				Date date = new java.sql.Date(
 						((java.util.Date) this.vista.getEntrega().getModel().getValue()).getTime());
@@ -98,6 +98,7 @@ public class GuardarEncargoDialogoControl {
 				| TrabajadorNoAsignadoException | FechaIncorrectaException e) {
 			new DialogoError(e).showErrorMessage();
 		}
+		
 	}
 
 	public Dialog getVista() {

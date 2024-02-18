@@ -66,7 +66,7 @@ public class LoginFrame extends JFrame {
 		getContentPane().add(gifLabel);
 		setBounds((int) (ConfiguracionPantalla.getWidthS() / 2) - 200, (int) ConfiguracionPantalla.alturaS(5),
 				gif.getIconWidth(), gif.getIconHeight());
-		System.out.println(X+Y);
+//		System.out.println(X+Y);
 		pack();
 	}
 

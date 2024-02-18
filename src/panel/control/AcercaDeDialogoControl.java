@@ -14,7 +14,7 @@ public class AcercaDeDialogoControl {
 	}
 
 	private void credito() {
-		System.out.println();
+//		System.out.println();
 		this.vista.getCL().show(this.vista.getMidPanel(), "Credito");
 	}
 

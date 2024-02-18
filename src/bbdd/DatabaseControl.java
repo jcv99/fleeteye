@@ -34,11 +34,14 @@ import objeto.Ubicacion;
 
 public class DatabaseControl {
 // jdbc:mysql://fleeteye.ddns.net/fleeteye\ ?serverTimezone=TimeZone.getDefault().getID()
-	/*private static final String urlCon = Messages.getString("DatabaseControl.0") + ConfiguracionServidor.HOST
-			+ Messages.getString("BARRA") + ConfiguracionServidor.BBDD // $NON-NLS-1$ //$NON-NLS-2$
-			+ Messages.getString("DatabaseControl.2") + TimeZone.getDefault().getID(); //$NON-NLS-1$
-*/
-	private static final String urlCon ="jdbc:mysql://localhost/fleeteye";
+	/*
+	 * private static final String urlCon = Messages.getString("DatabaseControl.0")
+	 * + ConfiguracionServidor.HOST + Messages.getString("BARRA") +
+	 * ConfiguracionServidor.BBDD // $NON-NLS-1$ //$NON-NLS-2$ +
+	 * Messages.getString("DatabaseControl.2") + TimeZone.getDefault().getID();
+	 * //$NON-NLS-1$
+	 */
+	private static final String urlCon = "jdbc:mysql://localhost/fleeteye";
 //	private static final String urlCon = "jdbc:mysql://labs.iam.cat/a18danbargar_prototipo3?serverTimezone="
 //			+ TimeZone.getDefault().getID();
 //	private static final String user = "a18danbargar_1";
@@ -93,9 +96,9 @@ public class DatabaseControl {
 	}
 
 	public static boolean login(String user, String password) {
-		boolean success = true;
+		boolean success = false;
 
-		/*try {
+		try {
 			String consulta = Messages.getString("DatabaseControl.4"); //$NON-NLS-1$
 
 			Connection con = getConnection();
@@ -107,8 +110,10 @@ public class DatabaseControl {
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next()) {
+				
+				  System.out.println(rs.getString(Messages.getString("DatabaseControl.5")));
 				if (rs.getString(Messages.getString("DatabaseControl.5")).contentEquals(passwordToMD5(password))) //$NON-NLS-1$
-					success = true;
+				success = true;
 			}
 
 			rs.close();
@@ -116,7 +121,7 @@ public class DatabaseControl {
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}*/
+		}
 		return success;
 	}
 
@@ -189,7 +194,8 @@ public class DatabaseControl {
 			if (e.getMessage().contains(ConstantesExcepciones.SQL_DUPLICATE_ENTRY))
 				throw new EntidadYaExisteException(
 						ConstantesExcepciones.DBC_CLIENTE_EXISTE + Messages.getString("DatabaseControl.6") //$NON-NLS-1$
-								+ cliente.getIdentidad().getNif(), ConstantesExcepciones.DBC_ERROR_GUARDAR_CLIENTE);
+								+ cliente.getIdentidad().getNif(),
+						ConstantesExcepciones.DBC_ERROR_GUARDAR_CLIENTE);
 			else
 				throw e;
 		}
@@ -230,8 +236,8 @@ public class DatabaseControl {
 			if (e.getMessage().contains(ConstantesExcepciones.SQL_DUPLICATE_ENTRY))
 				throw new EntidadYaExisteException(
 						ConstantesExcepciones.DBC_UBICACION_EXISTE + Messages.getString("DatabaseControl.7") //$NON-NLS-1$
-								+ ubicacion.getDireccion() + Messages.getString("DatabaseControl.8") + ubicacion.getCodigopostal(), //$NON-NLS-1$
-						ConstantesExcepciones.DBC_ERROR_GUARDAR_UBICACION);
+								+ ubicacion.getDireccion() + Messages.getString("DatabaseControl.8") //$NON-NLS-1$
+								+ ubicacion.getCodigopostal(), ConstantesExcepciones.DBC_ERROR_GUARDAR_UBICACION);
 			else
 				throw e;
 		}
@@ -328,7 +334,8 @@ public class DatabaseControl {
 			if (e.getMessage().contains(ConstantesExcepciones.SQL_DUPLICATE_ENTRY))
 				throw new EntidadYaExisteException(
 						ConstantesExcepciones.DBC_TRABAJADOR_EXISTE + Messages.getString("DatabaseControl.9") //$NON-NLS-1$
-								+ trabajador.getIdentidad().getNif(), ConstantesExcepciones.DBC_ERROR_GUARDAR_TRABAJADOR);
+								+ trabajador.getIdentidad().getNif(),
+						ConstantesExcepciones.DBC_ERROR_GUARDAR_TRABAJADOR);
 			else
 				throw e;
 		}
@@ -410,7 +417,8 @@ public class DatabaseControl {
 			if (e.getMessage().contains(ConstantesExcepciones.SQL_DUPLICATE_ENTRY))
 				throw new EntidadYaExisteException(
 						ConstantesExcepciones.DBC_CAMION_EXISTE + Messages.getString("DatabaseControl.10") //$NON-NLS-1$
-								+ camion.getMatricula(), ConstantesExcepciones.DBC_ERROR_GUARDAR_CAMION);
+								+ camion.getMatricula(),
+						ConstantesExcepciones.DBC_ERROR_GUARDAR_CAMION);
 			else
 				throw e;
 		}
@@ -457,7 +465,8 @@ public class DatabaseControl {
 			if (e.getMessage().contains(ConstantesExcepciones.SQL_DUPLICATE_ENTRY))
 				throw new EntidadYaExisteException(
 						ConstantesExcepciones.DBC_REMOLQUE_EXISTE + Messages.getString("DatabaseControl.11") //$NON-NLS-1$
-								+ remolque.getMatricula(), ConstantesExcepciones.DBC_ERROR_GUARDAR_REMOLQUE);
+								+ remolque.getMatricula(),
+						ConstantesExcepciones.DBC_ERROR_GUARDAR_REMOLQUE);
 			else
 				throw e;
 		}

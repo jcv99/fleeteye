@@ -176,7 +176,7 @@ public class DetallesClientePanelControl {
 			((DefaultTableModel) this.vista.getTableEncargos().getModel()).addRow(string);
 		} else {
 			for (int i = 0; i < string.length; i++) {
-				System.out.print(string[i] + " ");
+//				System.out.print(string[i] + " ");
 			}
 			JOptionPane.showMessageDialog(new JFrame(), "Cuidado que hay diferenctes columnas en la tabla", "Error",
 					JOptionPane.ERROR_MESSAGE);

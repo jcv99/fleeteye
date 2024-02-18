@@ -29,7 +29,7 @@ public class FormularioLoginPanel extends JPanel {
 		ImageIcon gif = new ImageIcon(Messages.getString("FormularioLoginPanel.0")); //$NON-NLS-1$
 		JLabel gifLabel = new JLabel(Messages.getString("VACIO")); //$NON-NLS-1$
 		gifLabel.setIcon(gif);
-		System.out.println(gif.getImage());
+//		System.out.println(gif.getImage());
 		gifLabel.setBounds(39, 54, 223, 180);
 		add(gifLabel);
 		textField = new JTextField();

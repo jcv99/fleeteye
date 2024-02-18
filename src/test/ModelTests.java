@@ -659,7 +659,7 @@ class ModelTests {
 		}
 
 		catch (RemolqueNoCompatibleException e) {
-			System.out.println("No ha dejado, todo en orden");
+//			System.out.println("No ha dejado, todo en orden");
 		}
 
 		// Asignamos los camiones con las tractores y probamos de meterle remolques no
@@ -706,12 +706,12 @@ class ModelTests {
 		}
 
 		catch (RemolqueNoCompatibleException e) {
-			System.out.println("No ha dejado, todo en orden");
+//			System.out.println("No ha dejado, todo en orden");
 		}
 
-		System.out.println(p2.getRemolqueRequerido().toString());
-		System.out.println(c2.getRemolque().toString());
-		System.out.println(c2.esOcupado());
+//		System.out.println(p2.getRemolqueRequerido().toString());
+//		System.out.println(c2.getRemolque().toString());
+//		System.out.println(c2.esOcupado());
 		Encargo e2 = new Encargo.Builder(p2).tractora(c2).build();
 
 		try {
@@ -719,7 +719,7 @@ class ModelTests {
 		}
 
 		catch (VehiculoOcupadoExcepcion e) {
-			System.out.println("El camion esta ocupado, no ha dejado, todo en orden");
+//			System.out.println("El camion esta ocupado, no ha dejado, todo en orden");
 		}
 
 		// Vamos a cambiar las dimensiones requeridas del remolque para que no cuadren,
@@ -731,9 +731,9 @@ class ModelTests {
 		}
 
 		catch (RemolqueNoCompatibleException e) {
-			System.out.println(p4.getRemolqueRequerido().getDimensionesRemolque().toString());
-			System.out.println(c3.getRemolque().getDimensionesRemolque().toString());
-			System.out.println("No deja porque las medidas no son compatibles");
+//			System.out.println(p4.getRemolqueRequerido().getDimensionesRemolque().toString());
+//			System.out.println(c3.getRemolque().getDimensionesRemolque().toString());
+//			System.out.println("No deja porque las medidas no son compatibles");
 		}
 
 		// cinchas es tema de true o false. Lo apartamos de momento.
@@ -812,7 +812,7 @@ class ModelTests {
 		dbm.completarEncargo(e4);
 
 		ArrayList<Encargo> encargosCompletados = dbm.buscarEncargosCompletados();
-		System.out.println();
+//		System.out.println();
 
 		assertTrue(encargosCompletados.size() == 3);
 
