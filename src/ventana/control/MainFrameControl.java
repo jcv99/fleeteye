@@ -28,7 +28,7 @@ import objeto.Trabajador;
 import objeto.Ubicacion;
 import panel.control.AcercaDeDialogoControl;
 import panel.control.guardar.GuardarCamionDialogoControl;
-import panel.control.guardar.GuardarClientDialogoControl;
+import panel.control.guardar.GuardarClienteDialogoControl;
 import panel.control.guardar.GuardarEncargoDialogoControl;
 import panel.control.guardar.GuardarPresupuestoDialogoControl;
 import panel.control.guardar.GuardarRemolqueDialogoControl;
@@ -43,13 +43,14 @@ import panel.vista.DialogoDetalles;
 import panel.vista.guardar.GuardarClientDialogo;
 import panel.vista.guardar.GuardarTrabajadorDialogo;
 import ventana.vista.MainFramePanel;
+
 public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 
 	private DatabaseControl dbm;
 
 	private ArrayList<Encargo> encargosClientes;
 	private GuardarCamionDialogoControl guardarCamionDialogoControl;
-	private GuardarClientDialogoControl guardarClienteDialogoControl;
+	private GuardarClienteDialogoControl guardarClienteDialogoControl;
 	private GuardarRemolqueDialogoControl guardarRemolqueDialogoControl;
 	private GuardarTrabajadorDialogoControl insertarTrabajadorDialogoControl;
 	private MostrarClientePanelControl mostrarClientePanelControl;
@@ -67,27 +68,29 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	private MainFramePanel vista;
 
 	public MainFrameControl(MainFramePanel vista) {
+
 		this.vista = vista;
 		this.dbm = new DatabaseControl();
+		initControls();
+		initListeners();
 
-		this.mostrarTrabajadorPanelControl = new MostrarTrabajadorPanelControl(this.vista.getMostrarTrabajadorPanel(),
-				this);
-		this.mostrarClientePanelControl = new MostrarClientePanelControl(this.vista.getMostrarClientePanel(), this);
-		this.mostrarPresupuestoPanelControl = new MostrarPresupuestoPanelControl(
-				this.vista.getMostrarPresupuestoPanel(), this);
-		this.mostrarEncargoPanelControl = new MostrarEncargoPanelControl(this.vista.getMostrarEncargoPanel(), this);
-		this.mostrarFlotaPanelControl = new MostrarFlotaPanelControl(this.vista.getMostrarFlotaPanel(), this);
-		this.vista.getMntmGuardarTrabajador()
-				.addActionListener(e -> new Thread(() -> crearTrabajadorDialogo()).start());
+	}
 
-		this.vista.getMntmGuardarCamion().addActionListener(e -> new Thread(() -> crearCamionDialogo()).start());
+	private void initControls() {
+		mostrarTrabajadorPanelControl = new MostrarTrabajadorPanelControl(vista.getMostrarTrabajadorPanel(), this);
+		mostrarClientePanelControl = new MostrarClientePanelControl(vista.getMostrarClientePanel(), this);
+		mostrarPresupuestoPanelControl = new MostrarPresupuestoPanelControl(vista.getMostrarPresupuestoPanel(), this);
+		mostrarEncargoPanelControl = new MostrarEncargoPanelControl(vista.getMostrarEncargoPanel(), this);
+		mostrarFlotaPanelControl = new MostrarFlotaPanelControl(vista.getMostrarFlotaPanel(), this);
+	}
 
-		this.vista.getMntmGuardarRemolque().addActionListener(e -> new Thread(() -> crearRemolqueDialogo()).start());
-
-		this.vista.getMntmAbout().addActionListener(
+	private void initListeners() {
+		vista.getMntmGuardarTrabajador().addActionListener(e -> crearTrabajadorDialogo());
+		vista.getMntmGuardarCamion().addActionListener(e -> crearCamionDialogo());
+		vista.getMntmGuardarRemolque().addActionListener(e -> crearRemolqueDialogo());
+		vista.getMntmAbout().addActionListener(
 				e -> new Thread(() -> new AcercaDeDialogoControl(new AcercaDeDialogo()).setVisible(true)).start());
-		this.vista.getMntmGuardarCliente().addActionListener(e -> crearClienteDialogo());
-
+		vista.getMntmGuardarCliente().addActionListener(e -> crearClienteDialogo());
 	}
 
 	@Override
@@ -216,7 +219,8 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	@Override
 	public void buscarCamionParaDetalles(String id, JPanel origen)
 			throws NumberFormatException, SQLException, TrabajadorOcupadoException, DatoNoValidoException,
-			NIFNoValidoException, RemolqueYaAsignadoException, CamionOcupadoException, MatriculaNoValidaException, VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, TrabajadorNoAsignadoException {
+			NIFNoValidoException, RemolqueYaAsignadoException, CamionOcupadoException, MatriculaNoValidaException,
+			VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, TrabajadorNoAsignadoException {
 		DialogoDetalles detalles = new DialogoDetalles(this, this);
 		detalles.setTrabajadores(dbm.buscarTrabajadoresPorEstado(Trabajador.DISPONIBLE));
 		detalles.setRemolques(dbm.buscarRemolquePorEstado(Remolque.DISPONIBLE));
@@ -240,7 +244,9 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	}
 
 	@Override
-	public void buscarClientes() throws SQLException, DatoNoValidoException, NIFNoValidoException, MatriculaNoValidaException, TrabajadorOcupadoException, RemolqueYaAsignadoException, CamionOcupadoException, VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, TrabajadorNoAsignadoException {
+	public void buscarClientes() throws SQLException, DatoNoValidoException, NIFNoValidoException,
+			MatriculaNoValidaException, TrabajadorOcupadoException, RemolqueYaAsignadoException, CamionOcupadoException,
+			VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, TrabajadorNoAsignadoException {
 		ArrayList<Cliente> clientes = this.dbm.buscarClientes();
 		this.mostrarClientePanelControl.setCIFCliente(clientes);
 		this.mostrarClientePanelControl.setRazonSocial(clientes);
@@ -356,7 +362,10 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	}
 
 	@Override
-	public void buscarTrabajadores() throws SQLException, NIFNoValidoException, DatoNoValidoException, TrabajadorOcupadoException, VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, RemolqueYaAsignadoException, CamionOcupadoException, TrabajadorNoAsignadoException, MatriculaNoValidaException {
+	public void buscarTrabajadores()
+			throws SQLException, NIFNoValidoException, DatoNoValidoException, TrabajadorOcupadoException,
+			VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, RemolqueYaAsignadoException,
+			CamionOcupadoException, TrabajadorNoAsignadoException, MatriculaNoValidaException {
 		ArrayList<Trabajador> trabajadores = this.dbm.buscarTrabajadores();
 		this.mostrarTrabajadorPanelControl.setTrabajadores(trabajadores);
 
@@ -370,7 +379,9 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 
 	@Override
 	public void buscarTrabajadorParaDetalles(String id, JPanel origen)
-			throws SQLException, NIFNoValidoException, DatoNoValidoException, TrabajadorOcupadoException, VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, RemolqueYaAsignadoException, CamionOcupadoException, TrabajadorNoAsignadoException, MatriculaNoValidaException {
+			throws SQLException, NIFNoValidoException, DatoNoValidoException, TrabajadorOcupadoException,
+			VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, RemolqueYaAsignadoException,
+			CamionOcupadoException, TrabajadorNoAsignadoException, MatriculaNoValidaException {
 		DialogoDetalles detalles = new DialogoDetalles(this, this);
 		detalles.abrirDetalles(dbm.buscarTrabajadorPorId(id));
 		detalles.setLocationRelativeTo(origen);
@@ -400,29 +411,21 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	}
 
 	private void crearCamionDialogo() {
-		this.guardarCamionDialogoControl = new GuardarCamionDialogoControl(this, this);
-		this.guardarCamionDialogoControl.getGuardarCamionPanel().setLocationRelativeTo(this.vista);
-		this.guardarCamionDialogoControl.getGuardarCamionPanel().setVisible(true);
+		new Thread(() -> new GuardarCamionDialogoControl(this, this).getGuardarCamionPanel().setVisible(true)).start();
 	}
 
 	private void crearClienteDialogo() {
-
-		this.guardarClienteDialogoControl = new GuardarClientDialogoControl(new GuardarClientDialogo(), this, this);
-		this.guardarClienteDialogoControl.getVista().setLocationRelativeTo(this.vista);
-		this.guardarClienteDialogoControl.getVista().setVisible(true);
+		new Thread(() -> new GuardarClienteDialogoControl(this, this).getVista().setVisible(true)).start();
 	}
 
 	private void crearRemolqueDialogo() {
-		this.guardarRemolqueDialogoControl = new GuardarRemolqueDialogoControl(this, this);
-		this.guardarRemolqueDialogoControl.getGuardarRemolquePanel().setLocationRelativeTo(this.vista);
-		this.guardarRemolqueDialogoControl.getGuardarRemolquePanel().setVisible(true);
+		new Thread(() -> new GuardarRemolqueDialogoControl(this, this).getGuardarRemolquePanel().setVisible(true))
+				.start();
 	}
 
 	private void crearTrabajadorDialogo() {
-		this.insertarTrabajadorDialogoControl = new GuardarTrabajadorDialogoControl(new GuardarTrabajadorDialogo(),
-				this, this);
-		this.insertarTrabajadorDialogoControl.getVista().setLocationRelativeTo(this.vista);
-		this.insertarTrabajadorDialogoControl.getVista().setVisible(true);
+		new Thread(() -> new GuardarTrabajadorDialogoControl(new GuardarTrabajadorDialogo(), this, this).getVista()
+				.setVisible(true)).start();
 	}
 
 	@Override
@@ -491,9 +494,26 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	private void tancarFrame() {
 		this.vista.dispose();
 	}
-	
-	public MainFramePanel getVista() 
-	{
+
+	public MainFramePanel getVista() {
 		return this.vista;
+	}
+
+	public void cargarTodosLosDatos() throws NIFNoValidoException {
+
+		try {
+			buscarEncargos();
+			buscarEncargosPorEstado(Encargo.ENCURSO);
+			buscarPresupuestos();
+			buscarTrabajadoresPorEstado(Trabajador.DISPONIBLE);
+			buscarClientes();
+			buscarUbicaciones();
+			buscarCamiones();
+			buscarRemolques();
+			buscarTrabajadores();
+			buscarTiposRemolque();
+		} catch (Exception e) {
+		}
+
 	}
 }

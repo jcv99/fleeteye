@@ -43,7 +43,7 @@ public class AcercaDeDialogo extends JDialog {
 		contentPanel.add(toppanel);
 		toppanel.setLayout(new BoxLayout(toppanel, BoxLayout.Y_AXIS));
 
-		JLabel lblNewLabel_2 = new JLabel(Messages.getString("VACIO=")); //$NON-NLS-1$
+		JLabel lblNewLabel_2 = new JLabel(Messages.getString("VACIO")); //$NON-NLS-1$
 		lblNewLabel_2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		toppanel.add(lblNewLabel_2);
 

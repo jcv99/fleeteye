@@ -14,12 +14,12 @@ import interfaz.EnPeticionBBDD;
 import objeto.Camion;
 import objeto.Camion.Builder;
 import panel.vista.guardar.GuardarCamionDialogo;
+
 public class GuardarCamionDialogoControl {
 
 	private Camion camion = null;
 	private EnActualizadaBBDD enActualizadaBBDD;
 	private EnPeticionBBDD enPeticionBBDD;
-
 	private GuardarCamionDialogo vista;
 
 	public GuardarCamionDialogoControl(EnPeticionBBDD enPeticionBBDD, EnActualizadaBBDD enActualizadaBBDD) {
