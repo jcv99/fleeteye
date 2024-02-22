@@ -2,6 +2,7 @@ package ventana.control;
 
 import java.awt.EventQueue;
 import javax.swing.UIManager;
+
 import constante.Messages;
 import ventana.vista.LoginFrame;
 

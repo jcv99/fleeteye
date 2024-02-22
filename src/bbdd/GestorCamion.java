@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import constante.Messages;
 import exception.CamionOcupadoException;
 import exception.DatoNoValidoException;
 import exception.MatriculaNoValidaException;
@@ -257,22 +258,22 @@ public class GestorCamion {
 					rs.getString(Messages.getString("GestorCamion.16"))); //$NON-NLS-1$
 
 			if (rs.getString(Messages.getString("GestorCamion.17")) != null) //$NON-NLS-1$
-				b.combustible(rs.getString(Messages.getString("GestorCamion.18"))); //$NON-NLS-1$
+				b.combustible(rs.getString(Messages.getString("17"))); //$NON-NLS-1$
 
 			if (rs.getInt(Messages.getString("GestorCamion.19")) > 0) //$NON-NLS-1$
 				b.potencia(rs.getInt(Messages.getString("GestorCamion.20"))); //$NON-NLS-1$
 
 			if (rs.getString(Messages.getString("GestorCamion.21")) != null) //$NON-NLS-1$
-				b.normativa(rs.getString(Messages.getString("GestorCamion.22"))); //$NON-NLS-1$
+				b.normativa(rs.getString(Messages.getString("GestorCamion.21"))); //$NON-NLS-1$
 
 			if (rs.getInt(Messages.getString("GestorCamion.23")) > 0) //$NON-NLS-1$
-				b.kilometraje(rs.getInt(Messages.getString("GestorCamion.24"))); //$NON-NLS-1$
+				b.kilometraje(rs.getInt(Messages.getString("GestorCamion.23"))); //$NON-NLS-1$
 
 			if ((rs.getDate(Messages.getString("GestorCamion.25"))) != null) //$NON-NLS-1$
-				b.fechaMatriculacion(rs.getDate(Messages.getString("GestorCamion.26"))); //$NON-NLS-1$
+				b.fechaMatriculacion(rs.getDate(Messages.getString("GestorCamion.25"))); //$NON-NLS-1$
 
 			if (rs.getString(Messages.getString("GestorCamion.27")) != null) //$NON-NLS-1$
-				b.configuracionEje(rs.getString(Messages.getString("GestorCamion.28"))); //$NON-NLS-1$
+				b.configuracionEje(rs.getString(Messages.getString("GestorCamion.27"))); //$NON-NLS-1$
 
 			if (rs.getInt(Messages.getString("GestorCamion.29")) == Camion.DISPONIBLE) //$NON-NLS-1$
 				b.estado(Camion.DISPONIBLE);
@@ -280,19 +281,19 @@ public class GestorCamion {
 				b.estado(Camion.OCUPADO);
 
 			if (rs.getString(Messages.getString("GestorCamion.30")) != null) //$NON-NLS-1$
-				b.pathRemoto(rs.getString(Messages.getString("GestorCamion.31"))); //$NON-NLS-1$
+				b.pathRemoto(rs.getString(Messages.getString("GestorCamion.30"))); //$NON-NLS-1$
 			
 			Camion camion = b.build();
 			
 			Trabajador trabajador = null;
 			if (rs.getInt(Messages.getString("GestorCamion.32")) > 0) { //$NON-NLS-1$
-				trabajador = trabajadorManager.buscarPorId(rs.getInt(Messages.getString("GestorCamion.33"))); //$NON-NLS-1$
+				trabajador = trabajadorManager.buscarPorId(rs.getInt(Messages.getString("GestorCamion.32"))); //$NON-NLS-1$
 				camion.trabajadorBBDD(trabajador);
 			}
 
 			Remolque remolque = null;
 			if (rs.getInt(Messages.getString("GestorCamion.34")) > 0) { //$NON-NLS-1$
-				remolque = remolqueManager.buscarPorId(rs.getInt(Messages.getString("GestorCamion.35"))); //$NON-NLS-1$
+				remolque = remolqueManager.buscarPorId(rs.getInt(Messages.getString("GestorCamion.34"))); //$NON-NLS-1$
 				camion.remolqueBBDD(remolque);
 			}
 

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 
+import constante.Messages;
 import exception.DatoNoValidoException;
 import exception.NIFNoValidoException;
 import objeto.IdentidadPersonaFisica;

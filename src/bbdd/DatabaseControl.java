@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.TimeZone;
 
 import constante.ConstantesExcepciones;
+import constante.Messages;
 import exception.CamionOcupadoException;
 import exception.DatoNoValidoException;
 import exception.DialogoError;
@@ -464,7 +465,7 @@ public class DatabaseControl {
 		} catch (SQLException e) {
 			if (e.getMessage().contains(ConstantesExcepciones.SQL_DUPLICATE_ENTRY))
 				throw new EntidadYaExisteException(
-						ConstantesExcepciones.DBC_REMOLQUE_EXISTE + Messages.getString("DatabaseControl.11") //$NON-NLS-1$
+						ConstantesExcepciones.DBC_REMOLQUE_EXISTE + Messages.getString("DatabaseControl.10") //$NON-NLS-1$
 								+ remolque.getMatricula(),
 						ConstantesExcepciones.DBC_ERROR_GUARDAR_REMOLQUE);
 			else

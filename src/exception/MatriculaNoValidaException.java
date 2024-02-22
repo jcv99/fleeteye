@@ -1,7 +1,6 @@
 package exception;
 
 import constante.Messages;
-
 public class MatriculaNoValidaException extends Exception {
 
 	public MatriculaNoValidaException(String matricula) {

@@ -5,6 +5,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 
 import constante.Messages;
+
 public class NumeroNoValidoException extends Exception {
 
 	public NumeroNoValidoException() {
