@@ -49,10 +49,10 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	private DatabaseControl dbm;
 
 	private ArrayList<Encargo> encargosClientes;
-	private GuardarCamionDialogoControl guardarCamionDialogoControl;
-	private GuardarClienteDialogoControl guardarClienteDialogoControl;
-	private GuardarRemolqueDialogoControl guardarRemolqueDialogoControl;
-	private GuardarTrabajadorDialogoControl insertarTrabajadorDialogoControl;
+//	private GuardarCamionDialogoControl guardarCamionDialogoControl;
+//	private GuardarClienteDialogoControl guardarClienteDialogoControl;
+//	private GuardarRemolqueDialogoControl guardarRemolqueDialogoControl;
+//	private GuardarTrabajadorDialogoControl insertarTrabajadorDialogoControl;
 	private MostrarClientePanelControl mostrarClientePanelControl;
 	private MostrarEncargoPanelControl mostrarEncargoPanelControl;
 	private MostrarFlotaPanelControl mostrarFlotaPanelControl;
@@ -61,7 +61,7 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 
 	private MostrarTrabajadorPanelControl mostrarTrabajadorPanelControl;
 
-	private ArrayList<Presupuesto> presupuestoClientes;
+//	private ArrayList<Presupuesto> presupuestoClientes;
 
 	private ArrayList<Ubicacion> ubicaciones;
 
@@ -134,7 +134,7 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 
 	@Override
 	public void actualizarEstadoEncargo(Encargo encargo) throws SQLException {
-		// this.dbm.actualizarEstadoEncargo(encargo);
+//		 this.dbm.actualizarEstadoEncargo(encargo);
 	}
 
 	@Override
@@ -270,8 +270,7 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	public void buscarEncargos() throws SQLException, TrabajadorOcupadoException, NIFNoValidoException,
 			DatoNoValidoException, VehiculoOcupadoExcepcion, RemolqueNoCompatibleException, RemolqueYaAsignadoException,
 			CamionOcupadoException, TrabajadorNoAsignadoException, MatriculaNoValidaException {
-		ArrayList<Encargo> encargos = this.dbm.buscarEncargos();
-		this.mostrarEncargoPanelControl.setEncargos(encargos);
+		this.mostrarEncargoPanelControl.setEncargos(this.dbm.buscarEncargos());
 	}
 
 	@Override
@@ -279,7 +278,7 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 			throws SQLException, DatoNoValidoException, NIFNoValidoException, TrabajadorOcupadoException,
 			RemolqueYaAsignadoException, CamionOcupadoException, VehiculoOcupadoExcepcion,
 			RemolqueNoCompatibleException, TrabajadorNoAsignadoException, MatriculaNoValidaException {
-		encargosClientes = this.dbm.buscarEncargosPorCliente(cliente.getId());
+		this.dbm.buscarEncargosPorCliente(cliente.getId());
 	}
 
 	//
@@ -337,7 +336,7 @@ public class MainFrameControl implements EnActualizadaBBDD, EnPeticionBBDD {
 	@Override
 	public void buscarPresupuestosPorCliente(Cliente cliente)
 			throws SQLException, DatoNoValidoException, NIFNoValidoException, MatriculaNoValidaException {
-		presupuestoClientes = this.dbm.buscarPresupuestosPorCliente(cliente.getId());
+		this.dbm.buscarPresupuestosPorCliente(cliente.getId());
 	}
 
 	@Override

@@ -75,13 +75,13 @@ public class LoginFrameControl {
 	}
 
 	private void login() {
-		if (DatabaseControl.login(campoUsuario.getText(), new String(campoContrasena.getPassword()))) {
+//		if (DatabaseControl.login(campoUsuario.getText(), new String(campoContrasena.getPassword()))) {
 			iniciarCargarDatosTask();
 			mostrarMainFrame();
-		} else {
-			new DialogoError(new Exception(Messages.getString("LoginFrameControl.2"))).showErrorMessage(); //$NON-NLS-1$
-			campoContrasena.setText(Messages.getString("VACIO")); //$NON-NLS-1$
-		}
+//		} else {
+//			new DialogoError(new Exception(Messages.getString("LoginFrameControl.2"))).showErrorMessage(); //$NON-NLS-1$
+//			campoContrasena.setText(Messages.getString("VACIO")); //$NON-NLS-1$
+//		}
 	}
 
 	private void mostrarMainFrame() {

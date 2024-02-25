@@ -1,92 +1,33 @@
 package panel.control.mostrar;
 
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import constante.Messages;
-import exception.CamionOcupadoException;
-import exception.DatoNoValidoException;
 import exception.DialogoError;
-import exception.MatriculaNoValidaException;
-import exception.NIFNoValidoException;
-import exception.RemolqueNoCompatibleException;
-import exception.RemolqueYaAsignadoException;
-import exception.TrabajadorNoAsignadoException;
-import exception.TrabajadorOcupadoException;
-import exception.VehiculoOcupadoExcepcion;
 import herramienta.Autocompletado;
+import herramienta.Utils;
 import interfaz.EnPeticionBBDD;
 import objeto.Cliente;
 import panel.vista.mostrar.MostrarClientePanel;
 
 public class MostrarClientePanelControl {
-	public class BotonDetallesEditor extends DefaultCellEditor {
-
-		public BotonDetallesEditor(JCheckBox checkbox) {
-			super(checkbox);
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-				int column) {
-			if (isSelected) {
-				botonDetalles.setForeground(table.getSelectionForeground());
-				botonDetalles.setBackground(table.getSelectionBackground());
-			} else {
-				botonDetalles.setForeground(table.getForeground());
-				botonDetalles.setBackground(table.getBackground());
-			}
-			botonDetalles.setText(Messages.getString("MostrarClientePanelControl.0")); //$NON-NLS-1$
-			return botonDetalles;
-		}
-	}
-
-	public class BotonDetallesRenderer extends JButton implements TableCellRenderer {
-
-		public BotonDetallesRenderer() {
-			setOpaque(true);
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			if (isSelected) {
-				setForeground(table.getSelectionForeground());
-				setBackground(table.getSelectionBackground());
-			} else {
-				setForeground(table.getForeground());
-				setBackground(UIManager.getColor(Messages.getString("MostrarClientePanelControl.1"))); //$NON-NLS-1$
-			}
-			setText(Messages.getString("MostrarClientePanelControl.2")); //$NON-NLS-1$
-			return this;
-		}
-	}
-
 	private static final int COLUMNA_ACTIVIDADECONOMICA = 3;
 	private static final int COLUMNA_DETALLES = 4;
 	private static final int COLUMNA_ID = 0;
 	private static final int COLUMNA_NIF = 1;
 
 	private static final int COLUMNA_RAZONSOCIAL = 2;
-
-	private Cliente[] aux;
 
 	private JButton botonDetalles;
 	private ArrayList<Cliente> clientes;
@@ -131,10 +72,7 @@ public class MostrarClientePanelControl {
 		String id = (String) this.vista.getTable().getValueAt(this.vista.getTable().getSelectedRow(), COLUMNA_ID);
 		try {
 			enPeticionBBDD.buscarClienteParaDetalles(id, this.vista);
-		} catch (NumberFormatException | SQLException | DatoNoValidoException | NIFNoValidoException
-				| TrabajadorOcupadoException | RemolqueYaAsignadoException | CamionOcupadoException
-				| VehiculoOcupadoExcepcion | RemolqueNoCompatibleException | TrabajadorNoAsignadoException
-				| MatriculaNoValidaException e) {
+		} catch (Exception e) {
 			new DialogoError(e).showErrorMessage();
 		}
 	}
@@ -144,20 +82,16 @@ public class MostrarClientePanelControl {
 			if (this.vista.getTable().getValueAt(x, COLUMNA_ID).toString().contentEquals(Integer.toString(c.getId()))) {
 				model = (DefaultTableModel) this.vista.getTable().getModel();
 				model.setValueAt(c.getIdentidad().getNif(), x, COLUMNA_NIF);
-				model.setValueAt(c.getIdentidad().getRazonSocial(), x,
-						COLUMNA_RAZONSOCIAL);
-				model.setValueAt(c.getIdentidad().getActividadEconomica(), x,
-						COLUMNA_ACTIVIDADECONOMICA);
+				model.setValueAt(c.getIdentidad().getRazonSocial(), x, COLUMNA_RAZONSOCIAL);
+				model.setValueAt(c.getIdentidad().getActividadEconomica(), x, COLUMNA_ACTIVIDADECONOMICA);
 				break;
 			}
 		}
 	}
 
 	public Object[] addClieMostrar(Cliente c) {
-		return new Object[] { c.getId(), c.getIdentidad().getNif(),
-				c.getIdentidad().getRazonSocial(),
-				c.getIdentidad().getActividadEconomica(),
-				Messages.getString("BARRAINVERTIDA") }; //$NON-NLS-1$
+		return new Object[] { c.getId(), c.getIdentidad().getNif(), c.getIdentidad().getRazonSocial(),
+				c.getIdentidad().getActividadEconomica(), Messages.getString("BARRAINVERTIDA") }; //$NON-NLS-1$
 	}
 
 	private void addRow(Object... ob) {
@@ -234,11 +168,11 @@ public class MostrarClientePanelControl {
 		this.model.getDataVector().removeAllElements();
 		this.modeloOrdenado = new TableRowSorter<TableModel>(this.model);
 		this.vista.getTable().setRowSorter(null);
-		setHeader(new String[] { Messages.getString("MostrarClientePanelControl.12"), //$NON-NLS-1$
+		Utils.setHeader(new String[] { Messages.getString("MostrarClientePanelControl.12"), //$NON-NLS-1$
 				Messages.getString("MostrarClientePanelControl.13"), //$NON-NLS-1$
 				Messages.getString("MostrarClientePanelControl.14"), //$NON-NLS-1$
 				Messages.getString("MostrarClientePanelControl.15"), //$NON-NLS-1$
-				Messages.getString("VACIO") }); //$NON-NLS-1$
+				Messages.getString("VACIO") }, this.vista.getTable()); //$NON-NLS-1$
 		if (this.clientes != null) {
 			for (Cliente c : clientes) {
 				addRow(addClieMostrar(c));
@@ -248,14 +182,9 @@ public class MostrarClientePanelControl {
 			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
 					.setCellRenderer(new BotonDetallesRenderer());
 			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
-					.setCellEditor(new BotonDetallesEditor(new JCheckBox()));
+					.setCellEditor(new BotonDetallesEditor(new JCheckBox(), botonDetalles));
 		}
 
-	}
-
-	public void setHeader(String[] s) {
-		DefaultTableModel model = new DefaultTableModel(s, 0);
-		this.vista.getTable().setModel(model);
 	}
 
 	public void setModelArr(Object[] ob) {

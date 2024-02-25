@@ -14,11 +14,11 @@ import org.jfree.data.xy.XYSeriesCollection;
 import constante.Messages;
 import exception.DialogoError;
 import panel.vista.mostrar.MostrarGraficaDialogo;
+
 public class MostrarGraficaDialogoControl {
 	private String abscisa;
 	private Double[][] array;
 	private ChartPanel cp;
-	private XYSeries datos;
 	private XYDataset datosLinea;
 	private String linea;
 	private String nom;
@@ -33,7 +33,7 @@ public class MostrarGraficaDialogoControl {
 				this.linea = Messages.getString("VACIO"); //$NON-NLS-1$
 
 			this.array = array;
-			this.datos = new XYSeries(this.linea);
+//			XYSeries datos = new XYSeries(this.linea);
 			this.datosLinea = new XYSeriesCollection(addDatos(this.array));
 
 			if (nom != null)

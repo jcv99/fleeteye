@@ -12,124 +12,80 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import constante.Messages;
+import herramienta.AutoFitLabel;
 
 public class DetallesTrabajadorPanel extends JPanel {
 	private JButton btnContrato;
 	private JButton btnDarBaja;
 	private JTextArea textAreaEncargos;
-	private JTextField textFieldApellidos;
-	private JTextField textFieldDNI;
-	private JTextField textFieldEstado;
-	private JTextField textFieldFechaNacimiento;
-	private JTextField textFieldID;
-	private JTextField textFieldNombre;
-	private JTextField textFieldPais;
+	private JLabel textFieldApellidos;
+	private JLabel textFieldDNI;
+	private JLabel textFieldEstado;
+	private JLabel textFieldFechaNacimiento;
+	private JLabel textFieldID;
+	private JLabel textFieldNombre;
+	private JLabel textFieldPais;
 
 	public DetallesTrabajadorPanel() {
-
 		setBorder(new LineBorder(Color.GRAY));
 		setLayout(null);
 
-		JLabel lblFoto = new JLabel(Messages.getString("VACIO")); //$NON-NLS-1$
-		lblFoto.setBorder(new LineBorder(Color.GRAY));
-		lblFoto.setBounds(42, 73, 86, 100);
-		add(lblFoto);
+		// Text fields
+		textFieldID = createTextField(74, 31, 71);
+		textFieldNombre = createTextField(226, 72, 417);
+		textFieldApellidos = createTextField(226, 114, 417);
+		textFieldDNI = createTextField(226, 31, 183);
+		textFieldPais = createTextField(477, 151, 166);
+		textFieldEstado = createTextField(505, 31, 138);
+		textFieldFechaNacimiento = createTextField(295, 150, 114);
 
-		JLabel lblId = new JLabel(Messages.getString("DetallesTrabajadorPanel.1")); //$NON-NLS-1$
-		lblId.setBounds(42, 38, 55, 15);
-		add(lblId);
+		// Buttons
+		btnContrato = createButton("Contrato", 153, 440, 138, 25);
+		btnDarBaja = createButton("Dar Baja", 431, 440, 103, 25);
 
-		JLabel lblNombre = new JLabel(Messages.getString("DetallesTrabajadorPanel.2")); //$NON-NLS-1$
-		lblNombre.setBounds(153, 79, 55, 15);
-		add(lblNombre);
+		// Labels
+		addLabel("1", 42, 31);
+		addLabel("2", 153, 72);
+		addLabel("3", 153, 114);
+		addLabel("4", 153, 158);
+		addLabel("5", 178, 38);
+		addLabel("6", 445, 38);
+		addLabel("7", 431, 158);
+		addLabel("8", 42, 195);
 
-		JLabel lblApellidos = new JLabel(Messages.getString("DetallesTrabajadorPanel.3")); //$NON-NLS-1$
-		lblApellidos.setBounds(153, 121, 68, 15);
-		add(lblApellidos);
+		// Text area
+		addTextArea(42, 225, 600, 175);
+	}
 
-		JLabel lblFechaNacimiento = new JLabel(Messages.getString("DetallesTrabajadorPanel.4")); //$NON-NLS-1$
-		lblFechaNacimiento.setBounds(153, 158, 138, 15);
-		add(lblFechaNacimiento);
+	private JLabel createTextField(int x, int y, int width) {
+		JLabel textField = new AutoFitLabel("");
+		textField.setBounds(x, y, width, 27);
+		add(textField);
+		return textField;
+	}
 
-		textFieldID = new JTextField();
-		textFieldID.setEditable(false);
-		textFieldID.setBounds(74, 31, 71, 27);
-		add(textFieldID);
-		textFieldID.setColumns(10);
+	private JButton createButton(String text, int x, int y, int width, int height) {
+		JButton button = new JButton(text);
+		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		button.setBounds(x, y, width, height);
+		add(button);
+		return button;
+	}
 
-		textFieldNombre = new JTextField();
-		textFieldNombre.setDisabledTextColor(Color.WHITE);
-		textFieldNombre.setEditable(false);
-		textFieldNombre.setBounds(226, 72, 417, 27);
-		add(textFieldNombre);
-		textFieldNombre.setColumns(10);
+	private void addLabel(String text, int x, int y) {
+		JLabel label = new AutoFitLabel(Messages.getString("DetallesTrabajadorPanel." + text));
+		label.setLocation(x, y);
+		add(label);
+	}
 
-		textFieldApellidos = new JTextField();
-		textFieldApellidos.setEditable(false);
-		textFieldApellidos.setBounds(226, 114, 417, 27);
-		add(textFieldApellidos);
-		textFieldApellidos.setColumns(10);
-
-		JLabel lblDNI = new JLabel(Messages.getString("DetallesTrabajadorPanel.5")); //$NON-NLS-1$
-		lblDNI.setBounds(178, 38, 55, 15);
-		add(lblDNI);
-
-		textFieldDNI = new JTextField();
-		textFieldDNI.setEditable(false);
-		textFieldDNI.setBounds(226, 31, 183, 27);
-		add(textFieldDNI);
-		textFieldDNI.setColumns(10);
-
-		JLabel lblEstado = new JLabel(Messages.getString("DetallesTrabajadorPanel.6")); //$NON-NLS-1$
-		lblEstado.setBounds(445, 38, 55, 15);
-		add(lblEstado);
-
-		textFieldEstado = new JTextField();
-		textFieldEstado.setEditable(false);
-		textFieldEstado.setBounds(505, 31, 138, 27);
-		add(textFieldEstado);
-		textFieldEstado.setColumns(10);
-
-		textFieldFechaNacimiento = new JTextField();
-		textFieldFechaNacimiento.setEditable(false);
-		textFieldFechaNacimiento.setBounds(295, 150, 114, 27);
-		add(textFieldFechaNacimiento);
-		textFieldFechaNacimiento.setColumns(10);
-
-		JLabel lblPais = new JLabel(Messages.getString("DetallesTrabajadorPanel.7")); //$NON-NLS-1$
-		lblPais.setBounds(431, 158, 55, 15);
-		add(lblPais);
-
-		textFieldPais = new JTextField();
-		textFieldPais.setEditable(false);
-		textFieldPais.setBounds(477, 151, 166, 27);
-		add(textFieldPais);
-		textFieldPais.setColumns(10);
-
-		JLabel lblEncargos = new JLabel(Messages.getString("DetallesTrabajadorPanel.8")); //$NON-NLS-1$
-		lblEncargos.setBounds(42, 195, 55, 15);
-		add(lblEncargos);
-
-		btnContrato = new JButton(Messages.getString("DetallesTrabajadorPanel.9")); //$NON-NLS-1$
-		btnContrato.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnContrato.setBounds(153, 440, 138, 25);
-		add(btnContrato);
-
-		btnDarBaja = new JButton(Messages.getString("DetallesTrabajadorPanel.10")); //$NON-NLS-1$
-		btnDarBaja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnDarBaja.setBounds(431, 440, 103, 25);
-		add(btnDarBaja);
-
+	private void addTextArea(int x, int y, int width, int height) {
 		ScrollPane scroll = new ScrollPane();
-		scroll.setSize(600, 175);
-		scroll.setLocation(42, 225);
+		scroll.setSize(width, height);
+		scroll.setLocation(x, y);
 		textAreaEncargos = new JTextArea();
-
 		textAreaEncargos.setWrapStyleWord(true);
 		textAreaEncargos.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		textAreaEncargos.setEditable(false);
-		textAreaEncargos.setBounds(160, 219, 98, 98);
-
 		scroll.add(textAreaEncargos);
 		add(scroll);
 	}
@@ -146,31 +102,31 @@ public class DetallesTrabajadorPanel extends JPanel {
 		return textAreaEncargos;
 	}
 
-	public JTextField getTextFieldApellidos() {
+	public JLabel getTextFieldApellidos() {
 		return textFieldApellidos;
 	}
 
-	public JTextField getTextFieldDNI() {
+	public JLabel getTextFieldDNI() {
 		return textFieldDNI;
 	}
 
-	public JTextField getTextFieldEstado() {
+	public JLabel getTextFieldEstado() {
 		return textFieldEstado;
 	}
 
-	public JTextField getTextFieldFechaNacimiento() {
+	public JLabel getTextFieldFechaNacimiento() {
 		return textFieldFechaNacimiento;
 	}
 
-	public JTextField getTextFieldID() {
+	public JLabel getTextFieldID() {
 		return textFieldID;
 	}
 
-	public JTextField getTextFieldNombre() {
+	public JLabel getTextFieldNombre() {
 		return textFieldNombre;
 	}
 
-	public JTextField getTextFieldPais() {
+	public JLabel getTextFieldPais() {
 		return textFieldPais;
 	}
 }

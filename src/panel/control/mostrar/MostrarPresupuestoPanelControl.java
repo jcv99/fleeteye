@@ -1,13 +1,10 @@
 package panel.control.mostrar;
 
-import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -15,66 +12,21 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import constante.Messages;
-import exception.CamionOcupadoException;
-import exception.DatoNoValidoException;
 import exception.DialogoError;
-import exception.MatriculaNoValidaException;
-import exception.NIFNoValidoException;
-import exception.RemolqueYaAsignadoException;
-import exception.TrabajadorOcupadoException;
 import herramienta.Autocompletado;
+import herramienta.Utils;
 import interfaz.EnPeticionBBDD;
 import objeto.Cliente;
 import objeto.Presupuesto;
 import panel.vista.mostrar.MostrarPresupuestoPanel;
+
 public class MostrarPresupuestoPanelControl {
-	public class BotonDetallesEditor extends DefaultCellEditor {
 
-		public BotonDetallesEditor(JCheckBox checkbox) {
-			super(checkbox);
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-				int column) {
-			if (isSelected) {
-				botonDetalles.setForeground(table.getSelectionForeground());
-				botonDetalles.setBackground(table.getSelectionBackground());
-			} else {
-				botonDetalles.setForeground(table.getForeground());
-				botonDetalles.setBackground(table.getBackground());
-			}
-			botonDetalles.setText(Messages.getString("MostrarPresupuestoPanelControl.0")); //$NON-NLS-1$
-			return botonDetalles;
-		}
-	}
-	public class BotonDetallesRenderer extends JButton implements TableCellRenderer {
-
-		public BotonDetallesRenderer() {
-			setOpaque(true);
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			if (isSelected) {
-				setForeground(table.getSelectionForeground());
-				setBackground(table.getSelectionBackground());
-			} else {
-				setForeground(table.getForeground());
-				setBackground(UIManager.getColor(Messages.getString("MostrarPresupuestoPanelControl.1"))); //$NON-NLS-1$
-			}
-			setText(Messages.getString("MostrarPresupuestoPanelControl.2")); //$NON-NLS-1$
-			return this;
-		}
-	}
 	private static final int COLUMNA_CLIENTE = 8;
 	private static final int COLUMNA_CPDESTINO = 4;
 	private static final int COLUMNA_CPORIGEN = 1;
@@ -144,9 +96,7 @@ public class MostrarPresupuestoPanelControl {
 		String id = (String) this.vista.getTable().getValueAt(this.vista.getTable().getSelectedRow(), COLUMNA_ID);
 		try {
 			this.enPeticionBBDD.buscarPresupuestoParaDetalles(id, this.vista);
-		} catch (NumberFormatException | SQLException | DatoNoValidoException | NIFNoValidoException
-				| TrabajadorOcupadoException | RemolqueYaAsignadoException | CamionOcupadoException
-				| MatriculaNoValidaException e) {
+		} catch (Exception e) {
 			new DialogoError(e).showErrorMessage();
 		}
 	}
@@ -171,7 +121,8 @@ public class MostrarPresupuestoPanelControl {
 	public Object[] addPresMostrar(Presupuesto p) {
 		return new Object[] { p.getId(), p.getOrigen().getCodigopostal(), p.getOrigen().getLocalidad(),
 				p.getOrigen().getPais(), p.getDestino().getCodigopostal(), p.getDestino().getLocalidad(),
-				p.getDestino().getPais(), p.getPrecio(), p.getCliente().getIdentidad().getRazonSocial(), Messages.getString("BARRAINVERTIDA") }; //$NON-NLS-1$
+				p.getDestino().getPais(), p.getPrecio(), p.getCliente().getIdentidad().getRazonSocial(),
+				Messages.getString("BARRAINVERTIDA") }; //$NON-NLS-1$
 	}
 
 	public void addRow(Object... ob) {
@@ -184,7 +135,8 @@ public class MostrarPresupuestoPanelControl {
 		if (this.vista.getTable().getModel().getColumnCount() == string.length) {
 			((DefaultTableModel) this.vista.getTable().getModel()).addRow(string);
 		} else {
-			JOptionPane.showMessageDialog(new JFrame(), Messages.getString("MostrarPresupuestoPanelControl.5"), Messages.getString("ERROR"), //$NON-NLS-1$ //$NON-NLS-2$
+			JOptionPane.showMessageDialog(new JFrame(), Messages.getString("MostrarPresupuestoPanelControl.5"), //$NON-NLS-1$
+					Messages.getString("ERROR"), //$NON-NLS-1$
 					JOptionPane.ERROR_MESSAGE);
 		}
 		this.vista.getTable().getColumnModel().getColumn(0).setMaxWidth(50);
@@ -231,14 +183,15 @@ public class MostrarPresupuestoPanelControl {
 
 	private void preparaComboboxes(ArrayList<String> item, JComboBox<String> combobox) {
 		ArrayList<String> itemFiltrado = new ArrayList<String>();
-		
+
 		item.forEach(i -> {
-			if (!itemFiltrado.contains(i)) itemFiltrado.add(i);
+			if (!itemFiltrado.contains(i))
+				itemFiltrado.add(i);
 		});
 		itemFiltrado.forEach(i -> {
 			combobox.addItem(i);
 		});
-		
+
 		item = null;
 	}
 
@@ -257,24 +210,12 @@ public class MostrarPresupuestoPanelControl {
 		else
 			addRow(addPresMostrar(p));
 	}
-	
+
 	public void refrescarCliente(Cliente p, boolean nuevo) {
 		if (nuevo)
 			this.vista.getComboBoxCliente().addItem(p.getIdentidad().getRazonSocial());
 	}
 
-	public void setHeader(String[] s) {
-		DefaultTableModel model = new DefaultTableModel(s, 0);
-		this.vista.getTable().setModel(model);
-	}
-
-	public void setModelArr(Object[] ob) {
-		for (int i = 0; i < ob.length; i++) {
-			addRow(ob[i]);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
 	public void setPresupuestos(ArrayList<Presupuesto> presupuestos) {
 		this.presupuestos = presupuestos;
 		model = (DefaultTableModel) this.vista.getTable().getModel();
@@ -287,8 +228,16 @@ public class MostrarPresupuestoPanelControl {
 		this.vista.getComboBoxPaisDestino().addItem(Messages.getString("TODO")); //$NON-NLS-1$
 		this.vista.getComboBoxCliente().addItem(Messages.getString("TODO")); //$NON-NLS-1$
 
-		setHeader(new String[] { Messages.getString("MostrarPresupuestoPanelControl.16"), Messages.getString("MostrarPresupuestoPanelControl.17"), Messages.getString("MostrarPresupuestoPanelControl.18"), Messages.getString("MostrarPresupuestoPanelControl.19"), Messages.getString("MostrarPresupuestoPanelControl.20"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-				Messages.getString("MostrarPresupuestoPanelControl.21"), Messages.getString("MostrarPresupuestoPanelControl.22"), Messages.getString("MostrarPresupuestoPanelControl.23"), Messages.getString("MostrarPresupuestoPanelControl.24"), Messages.getString("VACIO") }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		Utils.setHeader(new String[] { Messages.getString("MostrarPresupuestoPanelControl.16"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.17"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.18"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.19"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.20"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.21"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.22"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.23"), //$NON-NLS-1$
+				Messages.getString("MostrarPresupuestoPanelControl.24"), Messages.getString("VACIO") }, //$NON-NLS-1$ //$NON-NLS-2$
+				this.vista.getTable());
 		if (this.presupuestos != null) {
 			for (Presupuesto p : presupuestos) {
 				localidadOrigen.add(p.getOrigen().getLocalidad());
@@ -298,18 +247,18 @@ public class MostrarPresupuestoPanelControl {
 				cliente.add(p.getCliente().getIdentidad().getRazonSocial());
 				addRow(addPresMostrar(p));
 			}
-			
+
 			preparaComboboxes(localidadOrigen, this.vista.getComboBoxProvinciaOrigen());
 			preparaComboboxes(localidadDestino, this.vista.getComboBoxProvinciaDestino());
 			preparaComboboxes(paisOrigen, this.vista.getComboBoxPaisOrigen());
 			preparaComboboxes(paisDestino, this.vista.getComboBoxPaisDestino());
 			preparaComboboxes(cliente, this.vista.getComboBoxCliente());
-			
+
 			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES).setMaxWidth(80);
 			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
 					.setCellRenderer(new BotonDetallesRenderer());
 			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
-					.setCellEditor(new BotonDetallesEditor(new JCheckBox()));
+					.setCellEditor(new BotonDetallesEditor(new JCheckBox(), botonDetalles));
 
 		}
 	}

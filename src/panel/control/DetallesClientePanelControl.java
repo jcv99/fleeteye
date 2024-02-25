@@ -29,31 +29,31 @@ import panel.vista.DetallesClientePanel;
 
 public class DetallesClientePanelControl {
 
-	private static final int ECOLUMNA_CAMION = 2;
-	private static final int ECOLUMNA_CLIENTE = 11;
-	private static final int ECOLUMNA_CPDESTINO = 6;
-	private static final int ECOLUMNA_CPORIGEN = 3;
-	private static final int ECOLUMNA_DETALLES = 12;
-
-	private static final int ECOLUMNA_ESTADO = 1;
-	private static final int ECOLUMNA_FECHAFIN = 10;
-	private static final int ECOLUMNA_FECHAINICIO = 9;
+//	private static final int ECOLUMNA_CAMION = 2;
+//	private static final int ECOLUMNA_CLIENTE = 11;
+//	private static final int ECOLUMNA_CPDESTINO = 6;
+//	private static final int ECOLUMNA_CPORIGEN = 3;
+//	private static final int ECOLUMNA_DETALLES = 12;
+//
+//	private static final int ECOLUMNA_ESTADO = 1;
+//	private static final int ECOLUMNA_FECHAFIN = 10;
+//	private static final int ECOLUMNA_FECHAINICIO = 9;
 	private static final int ECOLUMNA_ID = 0;
-	private static final int ECOLUMNA_LOCALIDADDESTINO = 7;
-	private static final int ECOLUMNA_LOCALIDADORIGEN = 4;
-	private static final int ECOLUMNA_PAISDESTINO = 8;
-	private static final int ECOLUMNA_PAISORIGEN = 5;
-	private static final int PCOLUMNA_CLIENTE = 8;
-	private static final int PCOLUMNA_CPDESTINO = 4;
-	private static final int PCOLUMNA_CPORIGEN = 1;
-	private static final int PCOLUMNA_DETALLES = 9;
+//	private static final int ECOLUMNA_LOCALIDADDESTINO = 7;
+//	private static final int ECOLUMNA_LOCALIDADORIGEN = 4;
+//	private static final int ECOLUMNA_PAISDESTINO = 8;
+//	private static final int ECOLUMNA_PAISORIGEN = 5;
+//	private static final int PCOLUMNA_CLIENTE = 8;
+//	private static final int PCOLUMNA_CPDESTINO = 4;
+//	private static final int PCOLUMNA_CPORIGEN = 1;
+//	private static final int PCOLUMNA_DETALLES = 9;
 	private static final int PCOLUMNA_ID = 0;
-
-	private static final int PCOLUMNA_LOCALIDADDESTINO = 5;
-	private static final int PCOLUMNA_LOCALIDADORIGEN = 2;
-	private static final int PCOLUMNA_PAISDESTINO = 6;
-	private static final int PCOLUMNA_PAISORIGEN = 3;
-	private static final int PCOLUMNA_PRECIO = 7;
+//
+//	private static final int PCOLUMNA_LOCALIDADDESTINO = 5;
+//	private static final int PCOLUMNA_LOCALIDADORIGEN = 2;
+//	private static final int PCOLUMNA_PAISDESTINO = 6;
+//	private static final int PCOLUMNA_PAISORIGEN = 3;
+//	private static final int PCOLUMNA_PRECIO = 7;
 	private Cliente cliente;
 	private ArrayList<Encargo> encargos;
 	private EnPeticionBBDD enPeticionBBDD;
@@ -69,10 +69,8 @@ public class DetallesClientePanelControl {
 		this.presupuestos = presupuestos;
 		this.vista.getTextFieldID().setText(cliente.getId() + "");
 		this.vista.getTextFieldNIF().setText(cliente.getIdentidad().getNif());
-		this.vista.getTextFieldRazonSocial()
-				.setText(cliente.getIdentidad().getRazonSocial());
-		this.vista.getTextFieldActividadEco()
-				.setText(cliente.getIdentidad().getActividadEconomica());
+		this.vista.getTextFieldRazonSocial().setText(cliente.getIdentidad().getRazonSocial());
+		this.vista.getTextFieldActividadEco().setText(cliente.getIdentidad().getActividadEconomica());
 
 		this.vista.getBtnConsultaDato().addActionListener(e -> consultarDatos());
 		this.vista.getBtnGuardarPresupuesto().addActionListener(e -> guardarPresupuesto());

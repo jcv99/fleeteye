@@ -44,8 +44,6 @@ public class DetallesTrabajadorPanelControl {
 		if (this.contrato == null) {
 			try (GestorSCP scp = new GestorSCP()) {
 				this.contrato = scp.bajarFichero(trabajador.getPathRemotoContrato());
-			} catch (IOException | JSchException | ErrorConexionServidorException e) {
-				new DialogoError(e).showErrorMessage();
 			} catch (Exception e) {
 				new DialogoError(e).showErrorMessage();
 			}
@@ -68,16 +66,14 @@ public class DetallesTrabajadorPanelControl {
 		else
 			this.vista.getTextFieldEstado().setText("Ocupado");
 		this.vista.getTextFieldNombre().setText(trabajador.getIdentidad().getNombre());
-		this.vista.getTextFieldApellidos().setText(trabajador.getIdentidad().getApellido()
-				+ " " + trabajador.getIdentidad().getSegundoApellido());
-		this.vista.getTextFieldFechaNacimiento()
-				.setText(trabajador.getIdentidad().getFechaNacimiento().toString());
+		this.vista.getTextFieldApellidos().setText(
+				trabajador.getIdentidad().getApellido() + " " + trabajador.getIdentidad().getSegundoApellido());
+		this.vista.getTextFieldFechaNacimiento().setText(trabajador.getIdentidad().getFechaNacimiento().toString());
 		this.vista.getTextFieldPais().setText(trabajador.getIdentidad().getNacionalidad());
 		this.vista.getTextAreaEncargos().setText(" ");
-
-		if (trabajador.getPathRemotoContrato() == null) {
+		if (trabajador.getPathRemotoContrato() == null)
 			this.vista.getBtnContrato().setEnabled(false);
-		}
+
 	}
 
 	private void despedirTrabajador() {
@@ -90,9 +86,7 @@ public class DetallesTrabajadorPanelControl {
 				this.trabajador.darDeBaja();
 				this.enPeticionBBDD.actualizarEstadoTrabajador(this.trabajador);
 				this.enActualizadaBBDD.actualizarTrabajador(this.trabajador, false);
-			} catch (TrabajadorDadoDeBajaException e) {
-				new DialogoError(e).showErrorMessage();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				new DialogoError(e).showErrorMessage();
 			}
 		}

@@ -1,111 +1,52 @@
 package panel.control.mostrar;
 
-import java.awt.Component;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import constante.Messages;
-import exception.CamionOcupadoException;
-import exception.DatoNoValidoException;
 import exception.DialogoError;
-import exception.MatriculaNoValidaException;
-import exception.NIFNoValidoException;
-import exception.RemolqueNoCompatibleException;
-import exception.RemolqueYaAsignadoException;
-import exception.TrabajadorNoAsignadoException;
-import exception.TrabajadorOcupadoException;
-import exception.VehiculoOcupadoExcepcion;
 import herramienta.Autocompletado;
+import herramienta.Utils;
 import interfaz.EnPeticionBBDD;
 import objeto.Camion;
 import objeto.Cliente;
 import objeto.Encargo;
+import panel.vista.mostrar.MostrarClientePanel;
 import panel.vista.mostrar.MostrarEncargoPanel;
 
 public class MostrarEncargoPanelControl {
-	public class BotonDetallesEditor extends DefaultCellEditor {
 
-		public BotonDetallesEditor(JCheckBox checkbox) {
-			super(checkbox);
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-				int column) {
-			if (isSelected) {
-				botonDetalles.setForeground(table.getSelectionForeground());
-				botonDetalles.setBackground(table.getSelectionBackground());
-			} else {
-				botonDetalles.setForeground(table.getForeground());
-				botonDetalles.setBackground(table.getBackground());
-			}
-			botonDetalles.setText(Messages.getString("MostrarEncargoPanelControl.0")); //$NON-NLS-1$
-			return botonDetalles;
-		}
-	}
-
-	public class BotonDetallesRenderer extends JButton implements TableCellRenderer {
-
-		public BotonDetallesRenderer() {
-			setOpaque(true);
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			if (isSelected) {
-				setForeground(table.getSelectionForeground());
-				setBackground(table.getSelectionBackground());
-			} else {
-				setForeground(table.getForeground());
-				setBackground(UIManager.getColor(Messages.getString("MostrarEncargoPanelControl.1"))); //$NON-NLS-1$
-			}
-			setText(Messages.getString("MostrarEncargoPanelControl.2")); //$NON-NLS-1$
-			return this;
-		}
-	}
-
+	private static final int COLUMNA_ID = 0;
+	private static final int COLUMNA_ESTADO = 1;
 	private static final int COLUMNA_CAMION = 2;
-	private static final int COLUMNA_CLIENTE = 11;
-	private static final int COLUMNA_CPDESTINO = 6;
 	private static final int COLUMNA_CPORIGEN = 3;
-
+	private static final int COLUMNA_LOCALIDADORIGEN = 4;
+	private static final int COLUMNA_PAISORIGEN = 5;
+	private static final int COLUMNA_CPDESTINO = 6;
+	private static final int COLUMNA_LOCALIDADDESTINO = 7;
+	private static final int COLUMNA_PAISDESTINO = 8;
+	private static final int COLUMNA_FECHAINICIO = 9;
+	private static final int COLUMNA_FECHAFIN = 10;
+	private static final int COLUMNA_CLIENTE = 11;
 	private static final int COLUMNA_DETALLES = 12;
 
-	private static final int COLUMNA_ESTADO = 1;
-
-	private static final int COLUMNA_FECHAFIN = 10;
-	private static final int COLUMNA_FECHAINICIO = 9;
-	private static final int COLUMNA_ID = 0;
-	private static final int COLUMNA_LOCALIDADDESTINO = 7;
-	private static final int COLUMNA_LOCALIDADORIGEN = 4;
-	private static final int COLUMNA_PAISDESTINO = 8;
-	private static final int COLUMNA_PAISORIGEN = 5;
-	private Encargo[] aux;
 	private JButton botonDetalles;
-	private ArrayList<Encargo> encargos;
 	private EnPeticionBBDD enPeticionBBDD;
 	private DefaultTableModel model;
 	private TableRowSorter<TableModel> modeloOrdenado;
-
-	int posicio = 0;
 
 	private MostrarEncargoPanel vista;
 
@@ -116,7 +57,6 @@ public class MostrarEncargoPanelControl {
 		this.vista = vista;
 		this.enPeticionBBDD = enPeticionBBDD;
 
-		this.encargos = new ArrayList<>();
 		this.botonDetalles = new JButton();
 
 		Autocompletado.enable(this.vista.getCombCliente());
@@ -150,10 +90,7 @@ public class MostrarEncargoPanelControl {
 		try {
 			String id = (String) this.vista.getTable().getValueAt(this.vista.getTable().getSelectedRow(), COLUMNA_ID);
 			this.enPeticionBBDD.buscarEncargoParaDetalles(id, this.vista);
-		} catch (NumberFormatException | SQLException | TrabajadorOcupadoException | NIFNoValidoException
-				| DatoNoValidoException | RemolqueYaAsignadoException | VehiculoOcupadoExcepcion
-				| RemolqueNoCompatibleException | CamionOcupadoException | TrabajadorNoAsignadoException
-				| MatriculaNoValidaException e) {
+		} catch (Exception e) {
 			new DialogoError(e).showErrorMessage();
 		}
 	}
@@ -199,7 +136,7 @@ public class MostrarEncargoPanelControl {
 		}
 	}
 
-	public Object[] addEncMostrar(Encargo e) {
+	private Object[] addEncMostrar(Encargo e) {
 
 		String fechafin;
 		String estado = null;
@@ -233,7 +170,7 @@ public class MostrarEncargoPanelControl {
 				Messages.getString("BARRAINVERTIDA") }; //$NON-NLS-1$
 	}
 
-	public void addRow(Object... ob) {
+	private void addRow(Object... ob) {
 		String[] string = new String[ob.length];
 
 		for (int i = 0; i < ob.length; i++) {
@@ -362,12 +299,11 @@ public class MostrarEncargoPanelControl {
 	}
 
 	public void setEncargos(ArrayList<Encargo> encargos) {
-		this.encargos = encargos;
-		model = (DefaultTableModel) this.vista.getTable().getModel();
+		model = (DefaultTableModel) vista.getTable().getModel();
 		model.getDataVector().removeAllElements();
 		modeloOrdenado = new TableRowSorter<TableModel>(model);
-		this.vista.getTable().setRowSorter(null);
-		setHeader(new String[] { Messages.getString("MostrarEncargoPanelControl.37"), //$NON-NLS-1$
+		vista.getTable().setRowSorter(null);
+		Utils.setHeader(new String[] { Messages.getString("MostrarEncargoPanelControl.37"), //$NON-NLS-1$
 				Messages.getString("MostrarEncargoPanelControl.38"), //$NON-NLS-1$
 				Messages.getString("MostrarEncargoPanelControl.39"), //$NON-NLS-1$
 				Messages.getString("MostrarEncargoPanelControl.40"), //$NON-NLS-1$
@@ -378,27 +314,17 @@ public class MostrarEncargoPanelControl {
 				Messages.getString("MostrarEncargoPanelControl.45"), //$NON-NLS-1$
 				Messages.getString("MostrarEncargoPanelControl.46"), //$NON-NLS-1$
 				Messages.getString("MostrarEncargoPanelControl.47"), //$NON-NLS-1$
-				Messages.getString("MostrarEncargoPanelControl.48"), Messages.getString("VACIO") }); //$NON-NLS-1$ //$NON-NLS-2$
-		if (this.encargos != null) {
+				Messages.getString("MostrarEncargoPanelControl.48"), Messages.getString("VACIO") }, //$NON-NLS-1$ //$NON-NLS-2$
+				this.vista.getTable());
+		if (encargos != null) {
 			for (Encargo e : encargos) {
 				addRow(addEncMostrar(e));
 			}
-			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES).setMaxWidth(80);
-			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
-					.setCellRenderer(new BotonDetallesRenderer());
-			this.vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
-					.setCellEditor(new BotonDetallesEditor(new JCheckBox()));
+			vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES).setMaxWidth(80);
+			vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES).setCellRenderer(new BotonDetallesRenderer());
+			vista.getTable().getColumnModel().getColumn(COLUMNA_DETALLES)
+					.setCellEditor(new BotonDetallesEditor(new JCheckBox(), botonDetalles));
 		}
 	}
 
-	public void setHeader(String[] s) {
-		model = new DefaultTableModel(s, 0);
-		this.vista.getTable().setModel(model);
-	}
-
-	public void setModelArr(Object[] ob) {
-		for (int i = 0; i < ob.length; i++) {
-			addRow(ob[i]);
-		}
-	}
 }

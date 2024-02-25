@@ -32,6 +32,7 @@ import panel.control.DetallesEncargoPanelControl;
 import panel.control.DetallesPresupuestoPanelControl;
 import panel.control.DetallesRemolquePanelControl;
 import panel.control.DetallesTrabajadorPanelControl;
+
 public class DialogoDetalles extends JDialog {
 
 	private ArrayList<Camion> camiones = null;
@@ -68,9 +69,7 @@ public class DialogoDetalles extends JDialog {
 			try {
 				this.enPeticionBBDD.buscarEncargosPorCliente(cliente);
 				this.enPeticionBBDD.buscarPresupuestosPorCliente(cliente);
-			} catch (SQLException | DatoNoValidoException | NIFNoValidoException | TrabajadorOcupadoException
-					| RemolqueYaAsignadoException | CamionOcupadoException | VehiculoOcupadoExcepcion
-					| RemolqueNoCompatibleException | TrabajadorNoAsignadoException | MatriculaNoValidaException e) {
+			} catch (Exception e) {
 				new DialogoError(e).showErrorMessage();
 			}
 			setBounds(new Rectangle(0, 0, 750, 700));
