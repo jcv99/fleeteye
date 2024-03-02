@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import constante.Messages;
+
 public class DetallesClientePanel extends JPanel {
 
 	private JButton btnConsultaDato;

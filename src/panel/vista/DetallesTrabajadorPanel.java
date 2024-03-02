@@ -7,6 +7,7 @@ import java.awt.ScrollPane;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
@@ -17,7 +18,7 @@ import herramienta.AutoFitLabel;
 public class DetallesTrabajadorPanel extends JPanel {
 	private JButton btnContrato;
 	private JButton btnDarBaja;
-	private JTextArea textAreaEncargos;
+	private JTable textAreaEncargos;
 	private JLabel textFieldApellidos;
 	private JLabel textFieldDNI;
 	private JLabel textFieldEstado;
@@ -82,10 +83,11 @@ public class DetallesTrabajadorPanel extends JPanel {
 		ScrollPane scroll = new ScrollPane();
 		scroll.setSize(width, height);
 		scroll.setLocation(x, y);
-		textAreaEncargos = new JTextArea();
-		textAreaEncargos.setWrapStyleWord(true);
+
+		textAreaEncargos = new JTable();
 		textAreaEncargos.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		textAreaEncargos.setEditable(false);
+		textAreaEncargos.setBounds(160, 219, 98, 98);
+		textAreaEncargos.setDefaultEditor(Object.class, null);
 		scroll.add(textAreaEncargos);
 		add(scroll);
 	}
@@ -98,7 +100,7 @@ public class DetallesTrabajadorPanel extends JPanel {
 		return btnDarBaja;
 	}
 
-	public JTextArea getTextAreaEncargos() {
+	public JTable getTextAreaEncargos() {
 		return textAreaEncargos;
 	}
 

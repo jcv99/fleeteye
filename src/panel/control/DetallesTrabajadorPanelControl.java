@@ -70,7 +70,6 @@ public class DetallesTrabajadorPanelControl {
 				trabajador.getIdentidad().getApellido() + " " + trabajador.getIdentidad().getSegundoApellido());
 		this.vista.getTextFieldFechaNacimiento().setText(trabajador.getIdentidad().getFechaNacimiento().toString());
 		this.vista.getTextFieldPais().setText(trabajador.getIdentidad().getNacionalidad());
-		this.vista.getTextAreaEncargos().setText(" ");
 		if (trabajador.getPathRemotoContrato() == null)
 			this.vista.getBtnContrato().setEnabled(false);
 
